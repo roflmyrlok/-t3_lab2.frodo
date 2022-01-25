@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/t3_lab2.csproj": {}
+    "D:\\Мои Документы\\GitHub\\-t3_lab2.frodo\\t3_lab2\\t3_lab2.csproj": {}
   },
   "projects": {
-    "/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/t3_lab2.csproj": {
+    "D:\\Мои Документы\\GitHub\\-t3_lab2.frodo\\t3_lab2\\t3_lab2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/t3_lab2.csproj",
+        "projectUniqueName": "D:\\Мои Документы\\GitHub\\-t3_lab2.frodo\\t3_lab2\\t3_lab2.csproj",
         "projectName": "t3_lab2",
-        "projectPath": "/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/t3_lab2.csproj",
-        "packagesPath": "/Users/atrybushnyi/.nuget/packages/",
-        "outputPath": "/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/",
+        "projectPath": "D:\\Мои Документы\\GitHub\\-t3_lab2.frodo\\t3_lab2\\t3_lab2.csproj",
+        "packagesPath": "C:\\Users\\Пользователь\\.nuget\\packages\\",
+        "outputPath": "D:\\Мои Документы\\GitHub\\-t3_lab2.frodo\\t3_lab2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/atrybushnyi/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Пользователь\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -52,7 +52,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/5.0.404/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }

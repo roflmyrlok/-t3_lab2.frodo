@@ -13,3 +13,19 @@
 /Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/ref/t3_lab2.dll
 /Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.pdb
 /Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.genruntimeconfig.cache
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\bin\Debug\net5.0\t3_lab2.exe
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\bin\Debug\net5.0\t3_lab2.deps.json
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\bin\Debug\net5.0\t3_lab2.runtimeconfig.json
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\bin\Debug\net5.0\t3_lab2.runtimeconfig.dev.json
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\bin\Debug\net5.0\t3_lab2.dll
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\bin\Debug\net5.0\ref\t3_lab2.dll
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\bin\Debug\net5.0\t3_lab2.pdb
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\obj\Debug\net5.0\t3_lab2.csproj.AssemblyReference.cache
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\obj\Debug\net5.0\t3_lab2.GeneratedMSBuildEditorConfig.editorconfig
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\obj\Debug\net5.0\t3_lab2.AssemblyInfoInputs.cache
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\obj\Debug\net5.0\t3_lab2.AssemblyInfo.cs
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\obj\Debug\net5.0\t3_lab2.csproj.CoreCompileInputs.cache
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\obj\Debug\net5.0\t3_lab2.dll
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\obj\Debug\net5.0\ref\t3_lab2.dll
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\obj\Debug\net5.0\t3_lab2.pdb
+D:\Мои Документы\GitHub\-t3_lab2.frodo\t3_lab2\obj\Debug\net5.0\t3_lab2.genruntimeconfig.cache

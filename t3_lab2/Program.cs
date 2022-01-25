@@ -31,15 +31,33 @@ namespace t3_lab2
 				var frontier = new Queue<Point>();
 				distances.Add(new Point(0, 0), 0);
 				origins.Add(new Point(0,0) ,new Point(0,0));
+				frontier.Enqueue(new Point(0,0));
 				while (frontier.Count != 0)
 				{
-					var current = frontier.Dequeue();;
-					
+					var current = frontier.Dequeue();
 					if (current.Equals(goal))
 					{
 						break;
 					}
-						
+
+					var available = FindPointsNearby(map, current);
+					foreach (var point in available)
+					{
+						if (origins.ContainsKey(point))
+						{
+							frontier.Enqueue(point);
+							distances.Add(point, distances[current] + 1);
+							origins.Add(point, current);
+						}
+					}
+					
+				}
+
+				var lastPoint = goal;
+				for (var i = 0; i != distances[goal] - 1; i++)
+				{
+					path.Add(origins[lastPoint]);
+					lastPoint = origins[lastPoint];
 				}
 				
 				return path;
@@ -48,19 +66,19 @@ namespace t3_lab2
 			List<Point> FindPointsNearby(string[,] map, Point current)
 			{
 				List<Point> available = new List<Point>();
-				if (map[current.Column - 1, current.Row] != "█")
+				if (current.Column - 1 >= 0 && current.Column <= 90 && map[current.Column - 1, current.Row] != "█" )
 				{
 					available.Add(new Point(current.Column - 1, current.Row));
 				}
-				if (map[current.Column + 1, current.Row] != "█")
+				if (current.Column + 1 >= 0 && current.Column <= 90 && map[current.Column + 1, current.Row] != "█"  )
 				{
 					available.Add(new Point(current.Column + 1, current.Row));
 				}
-				if (map[current.Column, current.Row - 1] != "█")
+				if ( current.Row - 1 >= 0 && current.Row <= 35 && map[current.Column, current.Row - 1] != "█") 
 				{
 					available.Add(new Point(current.Column, current.Row + 1));
 				}
-				if (map[current.Column, current.Row + 1] != "█")
+				if (current.Row + 1 >= 0 && current.Row <= 35 && map[current.Column, current.Row + 1] != "█")
 				{
 					available.Add(new Point(current.Column, current.Row + 1));
 				}
