@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Kse.Algorithms.Samples;
 
 namespace t3_lab2
@@ -12,8 +10,7 @@ namespace t3_lab2
 			var generator = new MapGenerator(new MapGeneratorOptions()
 			{
 				Height = 35,
-				Width = 90,
-				Seed = 15
+				Width = 90
 			});
 
 			string[,] map = generator.Generate();
@@ -26,6 +23,7 @@ namespace t3_lab2
 			List<Point> GetShortestPath(string[,] map, Point start, Point goal)
 			{
 				var path = new List<Point>();
+				var lastPoint = goal;
 				var distances = new Dictionary<Point, int>();
 				var origins = new Dictionary<Point, Point>();
 				var frontier = new Queue<Point>();
@@ -35,25 +33,30 @@ namespace t3_lab2
 				while (frontier.Count != 0)
 				{
 					var current = frontier.Dequeue();
-					if (current.Equals(goal))
+					if (current.Row != 35 && current.Column != 91)
 					{
-						break;
-					}
-
-					var available = FindPointsNearby(map, current);
-					foreach (var point in available)
-					{
-						if (origins.ContainsKey(point))
+						var available = FindPointsNearby(map, current);
+						foreach (var point in available)
 						{
-							frontier.Enqueue(point);
-							distances.Add(point, distances[current] + 1);
-							origins.Add(point, current);
+							if (!origins.ContainsKey(point))
+							{
+								frontier.Enqueue(point);
+								distances.Add(point, distances[current] + 1);
+								origins.Add(point, current);
+								lastPoint = current;
+							}
 						}
 					}
-					
+					if (current.Equals(goal))
+					{
+						origins.Add(goal, current);
+						distances.Add(goal, distances[current] + 1);
+						lastPoint = goal;
+						break;
+					}
 				}
 
-				var lastPoint = goal;
+				
 				for (var i = 0; i != distances[goal] - 1; i++)
 				{
 					path.Add(origins[lastPoint]);
@@ -66,19 +69,19 @@ namespace t3_lab2
 			List<Point> FindPointsNearby(string[,] map, Point current)
 			{
 				List<Point> available = new List<Point>();
-				if (current.Column - 1 >= 0 && current.Column <= 90 && map[current.Column - 1, current.Row] != "█" )
+				if (current.Column - 1 >= 0 && current.Column -1 <= 89 && map[current.Column - 1, current.Row] != "█" )
 				{
 					available.Add(new Point(current.Column - 1, current.Row));
 				}
-				if (current.Column + 1 >= 0 && current.Column <= 90 && map[current.Column + 1, current.Row] != "█"  )
+				if (current.Column + 1 >= 0 && current.Column + 1 <= 89 && map[current.Column + 1, current.Row] != "█"  )
 				{
 					available.Add(new Point(current.Column + 1, current.Row));
 				}
-				if ( current.Row - 1 >= 0 && current.Row <= 35 && map[current.Column, current.Row - 1] != "█") 
+				if ( current.Row - 1 >= 0 && current.Row - 1 <= 34 && map[current.Column, current.Row - 1] != "█") 
 				{
 					available.Add(new Point(current.Column, current.Row + 1));
 				}
-				if (current.Row + 1 >= 0 && current.Row <= 35 && map[current.Column, current.Row + 1] != "█")
+				if (current.Row + 1 >= 0 && current.Row + 1 <= 34 && map[current.Column, current.Row + 1] != "█")
 				{
 					available.Add(new Point(current.Column, current.Row + 1));
 				}
