@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "t3_lab2/1.0.0": {
+        "runtime": {
+          "t3_lab2.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "t3_lab2/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,15 @@
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/bin/Debug/net5.0/t3_lab2.deps.json
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/bin/Debug/net5.0/t3_lab2.runtimeconfig.json
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/bin/Debug/net5.0/t3_lab2.runtimeconfig.dev.json
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/bin/Debug/net5.0/t3_lab2.dll
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/bin/Debug/net5.0/ref/t3_lab2.dll
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/bin/Debug/net5.0/t3_lab2.pdb
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.csproj.AssemblyReference.cache
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.GeneratedMSBuildEditorConfig.editorconfig
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.AssemblyInfoInputs.cache
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.AssemblyInfo.cs
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.csproj.CoreCompileInputs.cache
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.dll
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/ref/t3_lab2.dll
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.pdb
+/Users/atrybushnyi/Documents/GitHub/mapper/t3_lab2/obj/Debug/net5.0/t3_lab2.genruntimeconfig.cache
