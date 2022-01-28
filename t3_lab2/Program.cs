@@ -12,7 +12,9 @@ namespace t3_lab2
 			var generator = new MapGenerator(new MapGeneratorOptions()
 			{
 				Height = globalHeight,
-				Width = globalWidth
+				Width = globalWidth,
+				AddTraffic = true,
+				TrafficSeed = 14
 			});
 
 			string[,] map = generator.Generate();
@@ -29,7 +31,7 @@ namespace t3_lab2
 				var origins = new Dictionary<Point, Point>();
 				var frontier = new Queue<Point>();
 				frontier.Enqueue(start);
-				distances.Add(start, -1);
+				distances.Add(start, 0);
 				while (frontier.Count != 0)
 				{
 					var current = frontier.Dequeue();
@@ -44,7 +46,10 @@ namespace t3_lab2
 							{
 								distances.Add(point, distances[current] + 1);
 							}
-							
+						}
+						else if (origins.ContainsKey(point) && distances[current] + 1 < distances[point])
+						{
+							origins[point] = current;
 						}
 					}
 					if (current.Equals(goal))
@@ -55,7 +60,7 @@ namespace t3_lab2
 				}
 
 				var lenOf = distances[lastPoint];
-				for (var i = 0; i != lenOf  - 1; i++)
+				for (var i = 0; i != lenOf; i++)
 				{
 				localPath.Add(origins[lastPoint]);
 				lastPoint = origins[lastPoint];
