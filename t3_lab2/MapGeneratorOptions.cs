@@ -1,14 +1,19 @@
-﻿namespace Kse.Algorithms.Samples
+﻿namespace t3_lab2
 {
 	public class MapGeneratorOptions
 	{
-		public int Width { get; set; }
+		public MapGeneratorOptions(float noise)
+		{
+			Noise = noise;
+		}
 
-		public int Height { get; set; }
+		public int Width { get; init; }
 
-		public MapType Type { get; set; } = MapType.Maze; 
+		public int Height { get; init; }
 
-		public float Noise { get; set; }
+		public MapType Type { get; } = MapType.Maze; 
+
+		public float Noise { get; }
 
 		public int Seed { get; set; } = -1;
         

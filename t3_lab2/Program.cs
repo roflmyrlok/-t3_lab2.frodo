@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Kse.Algorithms.Samples;
+﻿using System;
+using System.Collections.Generic;
 
 namespace t3_lab2
 {
@@ -7,102 +7,121 @@ namespace t3_lab2
 	{
 		static void Main(string[] args)
 		{
-			var globalHeight = 16;
+			var globalHeight = 160;
 			var globalWidth = 160;
-			var generator = new MapGenerator(new MapGeneratorOptions()
+			var globalTraffic = true;
+			var generator = new MapGenerator(new MapGeneratorOptions(.01f)
 			{
 				Height = globalHeight,
 				Width = globalWidth,
-				AddTraffic = true,
-				TrafficSeed = 14
+				Seed = 14,
+				AddTraffic = globalTraffic,
+				TrafficSeed = 12345
 			});
-
-			string[,] map = generator.Generate();
-			var toStart = new Point(0, 0);
-			var finish = new Point(globalWidth - 2, globalHeight - 2);
-			List<Point> path = GetShortestPath(map, toStart, finish);
-			new MapPrinter().Print(map, path);
-			
-			List<Point> GetShortestPath(string[,] localMap, Point start, Point goal)
+			string[,] txtMap = generator.Generate();
+			ClassMap map = new ClassMap();
+			map.SetMap(txtMap, globalWidth, globalHeight);
+			if (globalTraffic)
 			{
-				var localPath = new List<Point> {start};
-				var lastPoint = goal;
-				var distances = new Dictionary<Point, int>();
-				var origins = new Dictionary<Point, Point>();
-				var frontier = new Queue<Point>();
+				List<ModernPoints> path = GetShortestPathByDeycstra(map);
+				new MapPrinter().Print(txtMap, path);
+			}
+			if (!globalTraffic)
+			{
+				List<ModernPoints> path = GetShortestPathByAStar(map);
+				new MapPrinter().Print(txtMap, path);
+			}
+			
+			
+			List<ModernPoints> GetShortestPathByDeycstra(ClassMap map)
+			{
+				var start = map.ListOfList[0][0];
+				var goal = map.ListOfList[globalHeight - 2][globalWidth - 2];
+				var localPath = new List<ModernPoints>();
+				var frontier = new Queue<ModernPoints>();
 				frontier.Enqueue(start);
-				distances.Add(start, 0);
+				start.FatherPoint = start;
+				start.Cost = 1 / (60 - 6 * (double.Parse(start.GetValue()) - 1));
+				start.Visited = true;
 				while (frontier.Count != 0)
 				{
 					var current = frontier.Dequeue();
-					var available = FindPointsNearby(localMap, current);
+					var available = map.GetPointsNearby(current);
 					foreach (var point in available)
 					{
-						if (!origins.ContainsKey(point))
+						if (!point.Visited)
 						{
-							frontier.Enqueue(point);
-							origins.Add(point, current);
-							if (!distances.ContainsKey(point))
+							if (point.Cost > current.Cost + 1 / (60 - 6 * (double.Parse(current.GetValue()) - 1)))
 							{
-								distances.Add(point, distances[current] + 1);
+								frontier.Enqueue(point);
+								point.Cost = current.Cost + 1 / (60 - 6 * (double.Parse(current.GetValue()) - 1));
+								point.FatherPoint = current;
+								point.Visited = true;
 							}
-						}
-						else if (origins.ContainsKey(point) && distances[current] + 1 < distances[point])
-						{
-							origins[point] = current;
 						}
 					}
 					if (current.Equals(goal))
 					{
-						lastPoint = goal;
+						var time = (current.Cost);
+						Console.WriteLine("time: ");
+						Console.WriteLine(time);
+						localPath.Add(goal);
 						break;
 					}
 				}
-
-				var lenOf = distances[lastPoint];
-				for (var i = 0; i != lenOf; i++)
+				while (localPath[^1] != start)
 				{
-				localPath.Add(origins[lastPoint]);
-				lastPoint = origins[lastPoint];
+					localPath.Add(localPath[^1].FatherPoint);
 				}
-				localPath.Add(goal);
 				return localPath;
 			}
-
-		List<Point> FindPointsNearby(string[,] localMap2, Point current)
+			List<ModernPoints> GetShortestPathByAStar(ClassMap map)
 			{
-				List<Point> available = new List<Point>();
-				if (current.Column - 1 >= 0 && current.Column - 1 <= globalWidth - 1 && current.Row <= globalWidth - 1)
+				var start = map.ListOfList[0][0];
+				var goal = map.ListOfList[globalHeight - 2][globalWidth - 2];
+				var localPath = new List<ModernPoints>();
+				var frontier = new Queue<ModernPoints>();
+				var coolerFrontier = new Queue<ModernPoints>();
+				frontier.Enqueue(start);
+				start.FatherPoint = start;
+				start.Cost = 0;
+				start.Visited = true;
+				while (true)
 				{
-					if (localMap2[current.Column - 1, current.Row] != "█")
+					var current = coolerFrontier.Count != 0 ? coolerFrontier.Dequeue() : frontier.Dequeue();
+					var available = map.GetPointsNearby(current, true);
+					var nOfTurnsLocal = available.Count;
+					for (var i = 0; i != nOfTurnsLocal ;i++)
 					{
-						available.Add(new Point(current.Column - 1, current.Row));
+						var point = available.Dequeue();
+						if (point.Visited) continue;
+						if (!(point.Cost > current.Cost + 1)) continue;
+						if (i == 0 && !point.Visited)
+						{
+							coolerFrontier.Enqueue(point);
+						}
+						else
+						{
+							frontier.Enqueue(point);
+						}
+						point.Cost = current.Cost + 1;
+						point.FatherPoint = current;
+						point.Visited = true;
+					}
+					if (current.Equals(goal))
+					{
+						var time = (current.Cost / 60);
+						Console.WriteLine("time: ");
+						Console.WriteLine(time);
+						localPath.Add(goal);
+						break;
 					}
 				}
-
-				if (current.Column + 1 >= 0 && current.Column + 1 <= globalWidth - 1 && current.Row <= globalWidth - 1)
+				while (localPath[^1] != start)
 				{
-					if (localMap2[current.Column + 1, current.Row] != "█")
-					{
-						available.Add(new Point(current.Column + 1, current.Row));
-					}
+					localPath.Add(localPath[^1].FatherPoint);
 				}
-				if ( current.Row - 1 >= 0 && current.Row - 1 <= globalHeight - 1 && current.Column <= globalWidth - 1) 
-				{
-					if (localMap2[current.Column, current.Row - 1] != "█")
-					{
-						available.Add(new Point(current.Column, current.Row - 1));
-					}
-				}
-
-				if (current.Row + 1 >= 0 && current.Row + 1 <= globalHeight - 1 && current.Column <= globalWidth - 1)
-				{
-					if (localMap2[current.Column, current.Row + 1] != "█")
-					{
-						available.Add(new Point(current.Column, current.Row + 1));
-					}
-				}
-				return available;
+				return localPath;
 			}
 		}
 	}

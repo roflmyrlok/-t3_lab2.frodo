@@ -1,30 +1,30 @@
-namespace Kse.Algorithms.Samples
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
+namespace t3_lab2
+{
     public class MapGenerator
     {
         private const string Wall = "█";
 
         private const string Space = " ";
 
-        private readonly MapGeneratorOptions options;
+        private readonly MapGeneratorOptions _options;
 
-        private readonly Random random;
+        private readonly Random _random;
 
-        private string[,] maze;
+        private string[,] _maze;
 
         public MapGenerator(MapGeneratorOptions options)
         {
-            this.options = options;
-            random = new Random((int)(options.Seed == -1 ? DateTime.UtcNow.Ticks : options.Seed));
+            this._options = options;
+            _random = new Random((int)(options.Seed == -1 ? DateTime.UtcNow.Ticks : options.Seed));
         }
 
         public string[,] Generate()
         {
-            maze = new string[options.Width, options.Height];
-            if (options.Type == MapType.Maze)
+            _maze = new string[_options.Width, _options.Height];
+            if (_options.Type == MapType.Maze)
             {
                 return GenerateMaze();
             }
@@ -36,29 +36,29 @@ namespace Kse.Algorithms.Samples
 
         private string[,] GenerateMaze()
         {
-            for (var x = 0; x < maze.GetLength(0); x++)
+            for (var x = 0; x < _maze.GetLength(0); x++)
             {
-                for (var y = 0; y < maze.GetLength(1); y++)
+                for (var y = 0; y < _maze.GetLength(1); y++)
                 {
-                    maze[x, y] = (y % 2 == 1 || x % 2 == 1) ? Wall : Space;
+                    _maze[x, y] = (y % 2 == 1 || x % 2 == 1) ? Wall : Space;
                 }
             }
 
             ExpandFrom(new Point(0, 0), new List<Point>());
-            RemoveWalls(options.Noise);
+            RemoveWalls(_options.Noise);
 
-            if (options.AddTraffic)
+            if (_options.AddTraffic)
             {
-                AddTraffic(options.TrafficSeed);
+                AddTraffic(_options.TrafficSeed);
             }
 
-            return maze;
+            return _maze;
 
             void ExpandFrom(Point point, List<Point> visited)
             {
                 visited.Add(point);
-                var neighbours = GetNeighbours(point.Column, point.Row, maze).ToArray();
-                Shuffle(random, neighbours);
+                var neighbours = GetNeighbours(point.Column, point.Row, _maze).ToArray();
+                Shuffle(_random, neighbours);
                 foreach (var neighbour in neighbours)
                 {
                     if (visited.Contains(neighbour))
@@ -73,7 +73,7 @@ namespace Kse.Algorithms.Samples
 
             void RemoveWallBetween(Point a, Point b)
             {
-                maze[(a.Column + b.Column) / 2, (a.Row + b.Row) / 2] = " ";
+                _maze[(a.Column + b.Column) / 2, (a.Row + b.Row) / 2] = " ";
             }
 
             void Shuffle(Random rng, Point[] array)
@@ -89,13 +89,13 @@ namespace Kse.Algorithms.Samples
 
         private void RemoveWalls(float chance)
         {
-            for (var y = 0; y < maze.GetLength(1); y++)
+            for (var y = 0; y < _maze.GetLength(1); y++)
             {
-                for (var x = 0; x < maze.GetLength(0); x++)
+                for (var x = 0; x < _maze.GetLength(0); x++)
                 {
-                    if (random.NextDouble() < chance && maze[x, y] == Wall)
+                    if (_random.NextDouble() < chance && _maze[x, y] == Wall)
                     {
-                        maze[x, y] = " ";
+                        _maze[x, y] = " ";
                     }
                 }
             }
@@ -104,7 +104,7 @@ namespace Kse.Algorithms.Samples
         private void AddTraffic(int seed)
         {
             var next = GetNextEmpty();
-            var trafficRandom = new Random(options.TrafficSeed);
+            var trafficRandom = new Random(_options.TrafficSeed);
             while (next.HasValue)
             {
                 PaintTrafficDfs(next.Value, trafficRandom.Next(50, 130), trafficRandom.Next(1, 10));
@@ -114,11 +114,11 @@ namespace Kse.Algorithms.Samples
 
             Point? GetNextEmpty()
             {
-                for (var y = 0; y < maze.GetLength(1); y++)
+                for (var y = 0; y < _maze.GetLength(1); y++)
                 {
-                    for (var x = 0; x < maze.GetLength(0); x++)
+                    for (var x = 0; x < _maze.GetLength(0); x++)
                     {
-                        if (maze[x, y] == " ")
+                        if (_maze[x, y] == " ")
                         {
                             return new Point(x, y);
                         }
@@ -142,7 +142,7 @@ namespace Kse.Algorithms.Samples
                     }
 
                     Visit(next);
-                    var neighbours = GetNeighbours(next.Column, next.Row, maze, 1, true);
+                    var neighbours = GetNeighbours(next.Column, next.Row, _maze, 1, true);
                     foreach (var neighbour in neighbours)
                     {
                         stack.Push(neighbour);
@@ -150,14 +150,13 @@ namespace Kse.Algorithms.Samples
 
                     void Visit(Point point)
                     {
-                        maze[point.Column, point.Row] = value.ToString();
+                        _maze[point.Column, point.Row] = value.ToString();
                         depth -= 1;
                         visited.Add(point);
                     }
                 }
             }
         }
-
         private List<Point> GetNeighbours(int column, int row, string[,] maze, int offset = 2,
             bool checkWalls = false)
         {

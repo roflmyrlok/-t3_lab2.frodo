@@ -1,22 +1,21 @@
-﻿namespace Kse.Algorithms.Samples
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace t3_lab2
+{
     public class MapPrinter
     {
-        public void Print(string[,] maze, List<Point> pathedMaze)
+        public void Print(string[,] maze, List<ModernPoints> mazeToPrint)
         {
             PrintTopLine();
-            for (var pathedI = 0; pathedI <= pathedMaze.Count - 1; pathedI++)
+            for (var patchedI = 0; patchedI <= mazeToPrint.Count - 1; patchedI++)
             {
-                var newX = pathedMaze[pathedI].Column;
-                var newY = pathedMaze[pathedI].Row;
-                maze[newX, newY] = "*";
+                var current = mazeToPrint[patchedI];
+                maze[current.GetColumn(),current.GetRow()] = "*";
             }
 
-            maze[pathedMaze[0].Column, pathedMaze[0].Row] = "A";
-            maze[pathedMaze[pathedMaze.Count - 1].Column, pathedMaze[pathedMaze.Count - 1].Row] = "B";
+            maze[mazeToPrint[0].GetColumn(), mazeToPrint[0].GetRow()] = "A";
+            maze[mazeToPrint[^1].GetColumn(), mazeToPrint[^1].GetRow()] = "B";
             for (var row = 0; row < maze.GetLength(1); row++)
             {
                 Console.Write($"{row}\t");
