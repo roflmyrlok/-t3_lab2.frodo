@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace t3_lab2
 {
@@ -7,40 +8,42 @@ namespace t3_lab2
 	{
 		static void Main(string[] args)
 		{
-			var globalHeight = 160;
-			var globalWidth = 160;
-			var globalTraffic = true;
-			var generator = new MapGenerator(new MapGeneratorOptions(.01f)
+			var globalHeight = 20;
+			var globalWidth = 20;
+			var globalTraffic = false;
+			var generator = new MapGenerator(new MapGeneratorOptions(.05f)
 			{
 				Height = globalHeight,
 				Width = globalWidth,
 				Seed = 14,
 				AddTraffic = globalTraffic,
-				TrafficSeed = 12345
+				TrafficSeed = 131
 			});
-			string[,] txtMap = generator.Generate();
-			ClassMap map = new ClassMap();
-			map.SetMap(txtMap, globalWidth, globalHeight);
+			string[,] testMap = generator.Generate();
+			//string[,] testMap ={};
+
+		Map map = new Map();
+			map.SetMap(testMap, globalWidth, globalHeight);
 			if (globalTraffic)
 			{
-				List<ModernPoints> path = GetShortestPathByDeycstra(map);
-				new MapPrinter().Print(txtMap, path);
+				List<ModernPoint> path = GetShortestPathByDeycstra(map);
+				new MapPrinter().Print(testMap, path,true);
 			}
 			if (!globalTraffic)
 			{
-				List<ModernPoints> path = GetShortestPathByAStar(map);
-				new MapPrinter().Print(txtMap, path);
+				List<ModernPoint> path = GetShortestPathByAStar(map);
+				new MapPrinter().Print(testMap, path);
 			}
 			
 			
-			List<ModernPoints> GetShortestPathByDeycstra(ClassMap map)
+			List<ModernPoint> GetShortestPathByDeycstra(Map map)
 			{
 				var start = map.ListOfList[0][0];
 				var goal = map.ListOfList[globalHeight - 2][globalWidth - 2];
-				var localPath = new List<ModernPoints>();
-				var frontier = new Queue<ModernPoints>();
+				var localPath = new List<ModernPoint>();
+				var frontier = new Queue<ModernPoint>();
 				frontier.Enqueue(start);
-				start.FatherPoint = start;
+				start.FatherPoint = null;
 				start.Cost = 1 / (60 - 6 * (double.Parse(start.GetValue()) - 1));
 				start.Visited = true;
 				while (frontier.Count != 0)
@@ -49,15 +52,15 @@ namespace t3_lab2
 					var available = map.GetPointsNearby(current);
 					foreach (var point in available)
 					{
-						if (!point.Visited)
+						if (point.FatherPoint == current) continue;
+						if (point.Cost > current.Cost + 1 / (60 - 6 * (double.Parse(current.GetValue()) - 1)))
 						{
-							if (point.Cost > current.Cost + 1 / (60 - 6 * (double.Parse(current.GetValue()) - 1)))
-							{
-								frontier.Enqueue(point);
-								point.Cost = current.Cost + 1 / (60 - 6 * (double.Parse(current.GetValue()) - 1));
-								point.FatherPoint = current;
-								point.Visited = true;
-							}
+							
+							point.Cost = current.Cost + 1 / (60 - 6 * (double.Parse(current.GetValue()) - 1));
+							point.FatherPoint = current;
+							point.Visited = true;
+							if (!point.Visited) continue;
+							frontier.Enqueue(point);
 						}
 					}
 					if (current.Equals(goal))
@@ -75,13 +78,13 @@ namespace t3_lab2
 				}
 				return localPath;
 			}
-			List<ModernPoints> GetShortestPathByAStar(ClassMap map)
+			List<ModernPoint> GetShortestPathByAStar(Map map)
 			{
 				var start = map.ListOfList[0][0];
 				var goal = map.ListOfList[globalHeight - 2][globalWidth - 2];
-				var localPath = new List<ModernPoints>();
-				var frontier = new Queue<ModernPoints>();
-				var coolerFrontier = new Queue<ModernPoints>();
+				var localPath = new List<ModernPoint>();
+				var frontier = new Queue<ModernPoint>();
+				var coolerFrontier = new Queue<ModernPoint>();
 				frontier.Enqueue(start);
 				start.FatherPoint = start;
 				start.Cost = 0;

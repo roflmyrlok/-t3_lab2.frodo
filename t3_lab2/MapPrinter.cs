@@ -5,17 +5,22 @@ namespace t3_lab2
 {
     public class MapPrinter
     {
-        public void Print(string[,] maze, List<ModernPoints> mazeToPrint)
+        public void Print(string[,] maze, List<ModernPoint> mazeToPrint, bool traffic = false)
         {
+            string symb = "*";
+            if (traffic)
+            {
+                symb = " ";
+            }
             PrintTopLine();
             for (var patchedI = 0; patchedI <= mazeToPrint.Count - 1; patchedI++)
             {
                 var current = mazeToPrint[patchedI];
-                maze[current.GetColumn(),current.GetRow()] = "*";
+                maze[current.GetColumn(),current.GetRow()] = symb;
             }
 
-            maze[mazeToPrint[0].GetColumn(), mazeToPrint[0].GetRow()] = "A";
-            maze[mazeToPrint[^1].GetColumn(), mazeToPrint[^1].GetRow()] = "B";
+            maze[mazeToPrint[0].GetColumn(), mazeToPrint[0].GetRow()] = "B";
+            maze[mazeToPrint[^1].GetColumn(), mazeToPrint[^1].GetRow()] = "A";
             for (var row = 0; row < maze.GetLength(1); row++)
             {
                 Console.Write($"{row}\t");

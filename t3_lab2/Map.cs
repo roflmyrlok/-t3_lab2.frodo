@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace t3_lab2
 {
-	public class ClassMap
+	public class Map
 	{
-		public List<List<ModernPoints>> ListOfList;
+		public List<List<ModernPoint>> ListOfList;
 		private int _width;
 		private int _height;
 
@@ -13,13 +13,13 @@ namespace t3_lab2
 		{
 			this._width = width - 1;
 			this._height = height - 1;
-			ListOfList = new List<List<ModernPoints>>();
+			ListOfList = new List<List<ModernPoint>>();
 			for (int row = 0; row < _height; row++)
 			{
-				ListOfList.Add(new List<ModernPoints>());
+				ListOfList.Add(new List<ModernPoint>());
 				for (int column = 0; column < _width; column++)
 				{
-					ModernPoints newPoint = new ModernPoints();
+					ModernPoint newPoint = new ModernPoint();
 					newPoint.SetPoint(column, row, newMap[column, row]);
 					ListOfList[row].Add(newPoint);
 				}
@@ -35,18 +35,18 @@ namespace t3_lab2
 			return _height;
 		}
 
-		public Queue<ModernPoints> GetPointsNearby(ModernPoints point ,bool coolerPoints = false)
+		public Queue<ModernPoint> GetPointsNearby(ModernPoint point ,bool coolerPoints = false)
 		{
 			int offset = 1;
-			var result = new Queue<ModernPoints>();
+			var result = new Queue<ModernPoint>();
 			TryAddWithOffset(offset, 0);
 			TryAddWithOffset(-offset, 0);
 			TryAddWithOffset(0, offset);
 			TryAddWithOffset(0, -offset);
 			if (coolerPoints)
 			{
-				var coolerResult = new Queue<ModernPoints>();
-				var dictForSockets = new Dictionary<ModernPoints, int>();
+				var coolerResult = new Queue<ModernPoint>();
+				var dictForSockets = new Dictionary<ModernPoint, int>();
 
 				foreach (var socket in result)
 				{
@@ -55,16 +55,17 @@ namespace t3_lab2
 				}
 				var keyR = dictForSockets.Min(x => x.Value);
 				var myKey = dictForSockets.FirstOrDefault(x => x.Value == keyR).Key;
-					coolerResult.Enqueue(myKey);
-					dictForSockets.Remove(myKey);
-					foreach (var key in dictForSockets)
-					{
-						coolerResult.Enqueue(key.Key);
-					}
-					return coolerResult;
+				coolerResult.Enqueue(myKey);
+				dictForSockets.Remove(myKey);
+				foreach (var key in dictForSockets)
+				{
+					coolerResult.Enqueue(key.Key);
+				}
+				return coolerResult;
 			}
 			return result;
-				void TryAddWithOffset(int offsetX, int offsetY)
+			
+			void TryAddWithOffset(int offsetX, int offsetY)
 			{
 				var newColumn = point.GetColumn() + offsetX;
 				var newRow = point.GetRow() + offsetY;
@@ -79,6 +80,3 @@ namespace t3_lab2
 		}
 	}
 }
-
-
-	

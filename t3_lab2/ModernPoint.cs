@@ -2,14 +2,14 @@ using System;
 
 namespace t3_lab2
 {
-	public class ModernPoints
+	public class ModernPoint
 	{
 		private int _column;
 		private int _row;
 		public bool Visited { get; set; }
 		private string _value;
 		public double Cost { set; get; } = Double.PositiveInfinity;
-		public ModernPoints FatherPoint { get; set; }
+		public ModernPoint FatherPoint { get; set; }
 
 		public void SetPoint(int column, int row, string value = "")
 		{
